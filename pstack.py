@@ -1,5 +1,5 @@
 class Link:
-    def __init__(self, value):
+    def __init__(self, key, value):
         self.value = value
         self.next = None
         self.key = key
@@ -9,7 +9,7 @@ class Stack:
         self.head = None
 
     def push(self, key, value):
-        link = Link(value)
+        link = Link(key, value)
         if self.head is None:
             self.head = link
         elif link.key < self.head.key:
@@ -20,20 +20,20 @@ class Stack:
 
     def pop(self):
         if self.head is None:
-            return None
+            return None, None
         head_link=self.head
         self.head=head_link.next
         return head_link.key, head_link.value
 
 
-def add_after(before, add):
+def add_after(before, link):
     if before.next is None:
         before.next = link
     elif link.key < before.next.key:
         link.next = before.next
-        before.next = to_add
+        before.next = link
     else:
-        add_after(before.next, to_add)
+        add_after(before.next, link)
 
 def main():
     stack=Stack()
