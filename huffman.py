@@ -8,6 +8,9 @@ class Node:
         self.left_child=None
         self.right_child=None
 
+    def isleaf(self):
+        return self.left_child is None and self.right_child is None
+
 class Node2:
     def __init__(self, l, w):
         self.parent=None
@@ -44,6 +47,18 @@ def rec_traverse(node, encoding, lookup_table):
             encoding+'1',
             lookup_table)
 
+def rec_decode_string(encoded_string, encoded_index, decoded_string, node):
+
+    if node.isleaf():
+        return encoded_index, decoded_string + node.value
+    else:
+        next_encoded_char = encoded_string[encoded_index]
+        if next_encoded_char == '0':
+            return rec_decode_string(encoded_string, encoded_index+1, decoded_string, node.left_child)
+        else:
+            return rec_decode_string(encoded_string, encoded_index+1, decoded_string, node.right_child)
+
+
 def main() -> object:
     input_string = "bobbychilds"
     freq_table = build_freq_table(input_string)
@@ -72,6 +87,13 @@ def main() -> object:
         encoded_c = lookup_table[c]
         encoded_string += encoded_c
     print(encoded_string)
+
+    decoded_string=""
+    encoded_string_index=0
+    while encoded_string_index < len(encoded_string):
+        encoded_string_index, decoded_string = rec_decode_string(encoded_string, encoded_string_index, decoded_string, root)
+
+    print(decoded_string)
 
 if __name__ == "__main__" :
     main()
