@@ -38,7 +38,6 @@ def rec_traverse(node, encoding, lookup_table):
             node.left_child,
             encoding+'0',
             lookup_table)
-
     if node.right_child is not None:
         rec_traverse(
             node.right_child,
@@ -46,7 +45,8 @@ def rec_traverse(node, encoding, lookup_table):
             lookup_table)
 
 def main() -> object:
-    freq_table = build_freq_table('bobbychilds')
+    input_string = "bobbychilds"
+    freq_table = build_freq_table(input_string)
     pqueue = Stack()
     for char, freq in freq_table.items():
         pqueue.push(freq, Node(freq, char))
@@ -67,6 +67,11 @@ def main() -> object:
     rec_traverse(root, "", lookup_table)
     print (lookup_table)
 
+    encoded_string = ""
+    for c in input_string:
+        encoded_c = lookup_table[c]
+        encoded_string += encoded_c
+    print(encoded_string)
 
 if __name__ == "__main__" :
     main()
